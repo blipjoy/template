@@ -2,9 +2,9 @@
 /* Game namespace */
 var game = {
     // Run on page load.
-    "onload" : function onload() {
+    "onload" : function () {
         // Initialize the video.
-        if (!me.video.init("screen", c.WIDTH, c.HEIGHT, c.DOUBLEBUF, "auto", true)) {
+        if (!me.video.init("screen", c.WIDTH, c.HEIGHT, c.DOUBLEBUF)) {
             alert("Your browser does not support HTML5 canvas.");
             return;
         }
@@ -23,7 +23,7 @@ var game = {
         });
     },
 
-    "loadResources" : function loadResources() {
+    "loadResources" : function () {
         // Set all resources to be loaded.
         var resources = [];
 
@@ -33,6 +33,15 @@ var game = {
                 "name"  : value,
                 "type"  : "image",
                 "src"   : "resources/img/" + value + ".png"
+            })
+        });
+
+        // Atlases.
+        this.resources["tps"].forEach(function forEach(value) {
+            resources.push({
+                "name"  : value,
+                "type"  : "tps",
+                "src"   : "resources/img/" + value + ".json"
             })
         });
 
@@ -62,7 +71,7 @@ var game = {
                 "type"      : "audio",
                 "src"       : "resources/bgm/",
                 "channel"   : 1,
-                "stream"	: true
+                "stream"    : true
             })
         });
 
@@ -71,7 +80,7 @@ var game = {
     },
 
     // Run on game resources loaded.
-    "loaded" : function loaded() {
+    "loaded" : function () {
         // Set up game states.
         me.state.set(me.state.BLIPJOY, new game.BlipjoyScreen());
         me.state.set(me.state.MENU, new game.TitleScreen());

@@ -3,6 +3,10 @@ game.resources = {
     "img" : [
     ],
 
+    /* Atlases */
+    "tps" : [
+    ],
+
     /* Maps. */
     "map" : [
     ],
