@@ -5,7 +5,7 @@ A template to ease creating new games using melonJS.
 ## About
 
 I hate starting from scratch when building a brand new game! I hate it so much
-that is causes me to procrastinate when starting a new project. This template is
+that it causes me to procrastinate when starting a new project. This template is
 an attempt to lower the entry barrier for writing that first line of code!
 
 The template ships with a new default loading screen and intro screen featuring
