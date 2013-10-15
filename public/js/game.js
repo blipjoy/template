@@ -16,11 +16,9 @@ var game = {
         me.loader.onload = this.loaded.bind(this);
         this.loadResources();
 
-        // Initialize melonJS and display a loading screen.
-        game.LoadBlipjoyLogo(function () {
-            me.state.set(me.state.LOADING, new game.LoadingScreen());
-            me.state.change(me.state.LOADING);
-        });
+        // Display the loading screen.
+        me.state.set(me.state.LOADING, new game.LoadingScreen());
+        me.state.change(me.state.LOADING);
     },
 
     "loadResources" : function () {

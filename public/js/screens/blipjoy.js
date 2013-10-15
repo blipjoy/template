@@ -1,89 +1,70 @@
-game.LoadBlipjoyLogo = function (callback) {
-    game.BlipjoyLogo = new Image();
-    game.BlipjoyLogo.onload = callback
-    game.BlipjoyLogo.src = (
-        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAOCAYAAAA1+Nx+AA" +
-        "AD8GlDQ1BJQ0MgUHJvZmlsZQAAOMuNVd1v21QUP4lvXKQWP6Cxjg4Vi69VU1u5Gxqtxg" +
-        "ZJk6XpQhq5zdgqpMl1bhpT1za2021Vn/YCbwz4A4CyBx6QeEIaDMT2su0BtElTQRXVJK" +
-        "Q9dNpAaJP2gqpwrq9Tu13GuJGvfznndz7v0TVAx1ea45hJGWDe8l01n5GPn5iWO1YhCc" +
-        "9BJ/RAp6Z7TrpcLgIuxoVH1sNfIcHeNwfa6/9zdVappwMknkJsVz19HvFpgJSpO64PIN" +
-        "5G+fAp30Hc8TziHS4miFhheJbjLMMzHB8POFPqKGKWi6TXtSriJcT9MzH5bAzzHIK1I0" +
-        "8t6hq6zHpRdu2aYdJYuk9Q/881bzZa8Xrx6fLmJo/iu4/VXnfH1BB/rmu5ScQvI77m+B" +
-        "kmfxXxvcZcJY14L0DymZp7pML5yTcW61PvIN6JuGr4halQvmjNlCa4bXJ5zj6qhpxruj" +
-        "eKPYMXEd+q00KR5yNAlWZzrF+Ie+uNsdC/MO4tTOZafhbroyXuR3Df08bLiHsQf+ja6g" +
-        "TPWVimZl7l/oUrjl8OcxDWLbNU5D6JRL2gxkDu16fGuC054OMhclsyXTOOFEL+kmMGs4" +
-        "i5kfNuQ62EnBuam8tzP+Q+tSqhz9SuqpZlvR1EfBiOJTSgYMMM7jpYsAEyqJCHDL4dcF" +
-        "FTAwNMlFDUUpQYiadhDmXteeWAw3HEmA2s15k1RmnP4RHuhBybdBOF7MfnICmSQ2SYjI" +
-        "BM3iRvkcMki9IRcnDTthyLz2Ld2fTzPjTQK+Mdg8y5nkZfFO+se9LQr3/09xZr+5GcaS" +
-        "ufeAfAww60mAPx+q8u/bAr8rFCLrx7s+vqEkw8qb+p26n11Aruq6m1iJH6PbWGv1VIY2" +
-        "5mkNE8PkaQhxfLIF7DZXx80HD/A3l2jLclYs061xNpWCfoB6WHJTjbH0mV35Q/lRXlC+" +
-        "W8cndbl9t2SfhU+Fb4UfhO+F74GWThknBZ+Em4InwjXIyd1ePnY/Psg3pb1TJNu15TMK" +
-        "WMtFt6ScpKL0ivSMXIn9QtDUlj0h7U7N48t3i8eC0GnMC91dX2sTivgloDTgUVeEGHLT" +
-        "izbf5Da9JLhkhh29QOs1luMcScmBXTIIt7xRFxSBxnuJWfuAd1I7jntkyd/pgKaIwVr3" +
-        "MgmDo2q8x6IdB5QH162mcX7ajtnHGN2bov71OU1+U0fqqoXLD0wX5ZM005UHmySz3qLt" +
-        "DqILDvIL+iH6jB9y2x83ok898GOPQX3lk3Itl0A+BrD6D7tUjWh3fis58BXDigN9yF8M" +
-        "5PJH4B8Gr79/F/XRm8m241mw/wvur4BGDj42bzn+Vmc+NL9L8GcMn8F1kAcXi1s/XUAA" +
-        "AAlUlEQVQ4y81SQQ6AIAzriL/zTx74E++rB7M4YMjEi01INiltBwIAn9aOvLRn1pTgCg" +
-        "XFKeoyw45c9QVH5BhSVNwKFhyd4bKBiltB79unCWzy6NUotjfimvityT/+olUkkiBvD1" +
-        "vbvuW1XK8meT2yiHSHFSJS1R6P5HAvWYL7QE2yEa8NpdzpBN40Ee7jBN59jxJ6vcUJPW" +
-        "+qsLnznKkAAAAASUVORK5CYII="
-    );
-}
-
-// Simple image resize function using "nearest neighbor"
-// Only works for scaling up
-game.resize = function (image, scale) {
-    var iw = image.width,
-        ih = image.height,
-        ipitch = iw * 4,
-        ow = iw * scale,
-        oh = ih * scale,
-        opitch = ow * 4,
-        context = me.video.createCanvasSurface(ow, oh);
-
-    // Get original pixels
-    context.drawImage(image, 0, 0);
-    var ipixels = context.getImageData(0, 0, iw, ih);
-    try {
-        var opixels = context.createImageData(ow, oh);
-    }
-    catch(e) {
-        var opixels = context.getImageData(0, 0, ow, oh);
-    }
-
-    var ix = 0,
-        iy = 0;
-
-    for (var oy = 0; oy < oh; oy++) {
-        iy = Math.floor(oy / scale);
-        for (var x = 0, ox = 0; x < ow; x++, ox += 4) {
-            ix = Math.floor(x / scale) * 4;
-            opixels.data[ox + 0 + oy * opitch] = ipixels.data[ix + 0 + iy * ipitch]; // R
-            opixels.data[ox + 1 + oy * opitch] = ipixels.data[ix + 1 + iy * ipitch]; // G
-            opixels.data[ox + 2 + oy * opitch] = ipixels.data[ix + 2 + iy * ipitch]; // B
-            opixels.data[ox + 3 + oy * opitch] = ipixels.data[ix + 3 + iy * ipitch]; // A
-        }
-    }
-
-    context.putImageData(opixels, 0, 0);
-
-    return context.canvas;
-};
-
 game.LoadingScreen = me.ScreenObject.extend({
     "init" : function () {
         this.parent(true);
 
-        // Create a new scaled image
-        var img = game.BlipjoyLogo;
-        this.scale = Math.round(Math.min(
-                c.WIDTH / img.width / 3,
-                c.HEIGHT / img.height / 3
-            ));
-        this.logo = game.resize(img, this.scale);
+        function drawLogo(defs, w, h, scale) {
+            var def = null,
+                pixels = null,
+                x = null,
+                y = null,
+                context = me.video.getContext2d(me.video.createCanvas(w, h));
 
-        // The invader just happens to be at x:8 and 8x8 px
-        this.size = this.scale * 8;
+            // Background
+            me.video.clearSurface(context, "#000");
+
+            // Iterating each compressed bitmap definition
+            for (var i = 0; i < defs.length; i++) {
+                def = defs[i];
+                x = def.x * scale;
+                y = (def.y - 1) * scale;
+
+                context.fillStyle = def.color;
+
+                // Iterate each pixel byte
+                for (var j = 0, l = 0; j < def.pixels.length; j++, l += 8) {
+                    pixels = def.pixels.charCodeAt(j);
+                    if ((l % def.w) === 0) {
+                        x = def.x * scale;
+                        y += scale;
+                    }
+
+                    // Each byte encodes 8 pixels
+                    for (var k = 0; k < 8; k++) {
+                        if ((pixels >> k) & 1) {
+                            context.fillRect(x, y, scale, scale);
+                        }
+                        x += scale;
+                    }
+                }
+            }
+
+            return context.canvas;
+        }
+
+        // Create a new scaled image
+        var WIDTH = 24,
+            HEIGHT = 14;
+        this.scale = Math.round(Math.min(
+            c.WIDTH / WIDTH / 3,
+            c.HEIGHT / HEIGHT / 3
+        ));
+        game.blipjoyLogo = drawLogo([
+            {
+                "x" : 8,
+                "y" : 0,
+                "w" : 8,
+                "pixels" :  "\x81\x42\x3C\x5A\xBD\xA5\x99\x42",
+                "color" :   "#4B0082"
+            },
+            {
+                "x" : 0,
+                "y" : 9,
+                "w" : 24,
+                "pixels" :  "\x13\x8D\xA4\x15\x94\xAA\x13\x8D" +
+                            "\x4A\x15\xA5\x4A\x73\x45\x44",
+                "color" :   "#fff"
+            }
+        ], WIDTH * this.scale, HEIGHT * this.scale, this.scale);
 
         // Flag to cause a redraw
         this.invalidate = false;
@@ -120,17 +101,18 @@ game.LoadingScreen = me.ScreenObject.extend({
     },
 
     "draw" : function (context) {
-        var img = this.logo,
+        var img = game.blipjoyLogo,
             x = (c.WIDTH - img.width) / 2,
-            y = (c.HEIGHT - img.height) / 2;
+            y = (c.HEIGHT - img.height) / 2,
+            size = 8 * this.scale;
 
         me.video.clearSurface(context, "#000");
 
         // Draw logo
         context.drawImage(
             img,
-            this.size, 0, this.size, this.size,
-            x + this.size, y, this.size, this.size
+            size, 0, size, size,
+            x + size, y, size, size
         );
 
         // Draw progress bar
@@ -153,17 +135,16 @@ game.BlipjoyScreen = me.ScreenObject.extend({
     ],
 
     "init" : function () {
-        var img = game.BlipjoyLogo,
+        var r = null,
+            WIDTH = 24,
+            HEIGHT = 14,
             scale = Math.round(Math.min(
-                c.WIDTH / img.width / 3,
-                c.HEIGHT / img.height / 3
+                c.WIDTH / WIDTH / 3,
+                c.HEIGHT / HEIGHT / 3
             ));
-        this.logo = game.resize(img, scale);
 
         // Resize the regions, too
-        var len = this.regions.length,
-            r = null;
-        for (var i = 0; i < len; i++) {
+        for (var i = 0; i < this.regions.length; i++) {
             r = this.regions[i];
             r.x *= scale;
             r.y *= scale;
@@ -209,7 +190,7 @@ game.BlipjoyScreen = me.ScreenObject.extend({
     },
 
     "draw" : function (context) {
-        var img = this.logo,
+        var img = game.blipjoyLogo,
             x = (c.WIDTH - img.width) / 2,
             y = (c.HEIGHT - img.height) / 2,
             r = null;
