@@ -79,9 +79,7 @@
 
     // Game engine settings.
     me.sys.gravity = 0;
-    //me.sys.dirtyRegion = true; // Be fast!
     me.sys.preRender = true; // Be faster!
-    me.sys.useNativeAnimFrame = true; // Be fastest!
     me.sys.stopOnAudioError = false;
 
     function enableDebug(enable) {
