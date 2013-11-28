@@ -30,7 +30,7 @@ var game = {
             resources.push({
                 "name"  : value,
                 "type"  : "image",
-                "src"   : "resources/img/" + value + ".png"
+                "src"   : "data/img/" + value + ".png"
             })
         });
 
@@ -39,7 +39,7 @@ var game = {
             resources.push({
                 "name"  : value,
                 "type"  : "tps",
-                "src"   : "resources/img/" + value + ".json"
+                "src"   : "data/img/" + value + ".json"
             })
         });
 
@@ -48,7 +48,7 @@ var game = {
             resources.push({
                 "name"  : value,
                 "type"  : "tmx",
-                "src"   : "resources/map/" + value + ".json"
+                "src"   : "data/map/" + value + ".json"
             })
         });
 
@@ -57,7 +57,7 @@ var game = {
             resources.push({
                 "name"      : value,
                 "type"      : "audio",
-                "src"       : "resources/sfx/",
+                "src"       : "data/sfx/",
                 "channel"   : 3
             })
         });
@@ -67,7 +67,7 @@ var game = {
             resources.push({
                 "name"      : value,
                 "type"      : "audio",
-                "src"       : "resources/bgm/",
+                "src"       : "data/bgm/",
                 "channel"   : 1,
                 "stream"    : true
             })
