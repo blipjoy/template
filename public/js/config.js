@@ -2,6 +2,31 @@
 
     var enabled = false;
 
+    function parseHash() {
+        var hash = {};
+        document.location.hash.substr(1).split("&").filter(function (value) {
+            return (value !== "");
+        }).forEach(function (value) {
+            var kv = value.split("=");
+            var k = kv.shift();
+            var v = kv.join("=");
+            hash[k] = v;
+        });
+
+        return hash;
+    }
+
+    function defineConst(obj, key, value) {
+        Object.defineProperty(obj, key, {
+            "configurable" : true,
+            "get" : (function (v) {
+                return function () {
+                    return v;
+                }
+            })(value)
+        });
+    }
+
     /* Constants */
     window.c = {
         "DEBUG"     : false,
@@ -21,11 +46,13 @@
                 S4() + "-" +
                 S4() + S4() + S4()
             );
-        })()
+        })(),
+
+        "HASH"      : parseHash()
     };
 
     // Helper to enable debug by setting a special hash in the URL.
-    if (document.location.hash === "#debug") {
+    if (typeof(window.c.HASH.debug) !== "undefined") {
         c.DEBUG = true;
         window.onReady(function () {
             enableDebug.defer(true);
@@ -33,38 +60,21 @@
     }
 
     window.addEventListener("hashchange", function (e) {
-        var debug = (document.location.hash === "#debug");
+        defineConst(window.c, "HASH", parseHash());
+
+        var debug = (typeof(window.c.HASH.debug) !== "undefined");
         enableDebug(debug);
-        try {
-            c.__defineGetter__("DEBUG", function () {
-                return debug;
-            });
-        }
-        catch (e) {
-            c.DEBUG = debug;
-        }
+        defineConst(window.c, "DEBUG", debug);
     });
 
     // Turn the `c` object into a hash of constants.
-    try {
-        Object.keys(c).forEach(function (key) {
-            if (typeof(c[key]) === "function") {
-                return;
-            }
+    Object.keys(window.c).forEach(function (key) {
+        if (typeof(window.c[key]) === "function") {
+            return;
+        }
 
-            c.__defineGetter__(
-                key,
-                (function (value) {
-                    return function () {
-                        return value
-                    };
-                })(c[key])
-            );
-        });
-    }
-    catch (e) {
-        // No getters? FAKE CONSTANTS!
-    }
+        defineConst(window.c, key, window.c[key]);
+    });
 
 
     // Game engine settings.
